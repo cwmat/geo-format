@@ -57,8 +57,9 @@ const Tabber = (props) => {
         index={0}
       >
         <Toolbar 
-          epsgCodeChanged={epsgCodeChangeHandler}
-          dataFormatChanged={dataFormatChangeHandler}
+          // epsgCodeChanged={epsgCodeChangeHandler}
+          // dataFormatChanged={dataFormatChangeHandler}
+          conversionRequest={(e, payload) => {props.conversionRequest(e, payload)}}
         />
         <CodeEditor editorMode={codeEditorMode} codeEditorDataChanged={props.codeEditorDataChanged} />
       </TabPanel>
@@ -76,6 +77,7 @@ const Tabber = (props) => {
 
 Tabber.propTypes = {
   codeEditorDataChanged: PropTypes.func,
+  conversionRequest: PropTypes.func,
 };
 
 export default Tabber;

@@ -1,3 +1,4 @@
+import { CodeContextProvider } from 'components/Code/CodeContext';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import MapMain from 'views/MapMain';
@@ -9,7 +10,11 @@ function App() {
     <React.Fragment>
       <Routes>
         <Route path='/' element={<Splash />} />
-        <Route path='/map' element={<MapMain />} />
+        <Route path='/map' element={
+          <CodeContextProvider>
+            <MapMain />
+          </CodeContextProvider>
+        } />
       </Routes>
     </React.Fragment>
   );

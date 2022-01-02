@@ -3,13 +3,14 @@ import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { dataFormats } from 'models/dataFormat';
 import Button from '@mui/material/Button';
 
 import classes from './Toolbar.module.css';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
+import { CodeContext } from './CodeContext';
 
 const Toolbar = (props) => {
   const dataFormatOptions = [
@@ -34,35 +35,30 @@ const Toolbar = (props) => {
       disabled: true
     },
   ];
-  const [currentEpsgCode, setEpsgCode] = useState('4326');
-  const [currentDataFormat, setDataFormat] = useState(dataFormats.geojson);
-  const [toEpsgCode, setToEpsgCode] = useState('3857');
-  const [toDataFormat, setToDataFormat] = useState(dataFormats.geojson);
-
-  useEffect(() => {
-    console.log(currentEpsgCode, currentDataFormat);
-  }, [currentEpsgCode, currentDataFormat]);
+  const {
+    currentEpsgCode, setEpsgCode,
+    currentDataFormat, setDataFormat,
+    toEpsgCode, setToEpsgCode,
+    toDataFormat, setToDataFormat,
+  } = useContext(CodeContext)
 
   const epsgChangeHandler = (event) => {
     setEpsgCode(event.target.value);
     // TODO add validation to useEffect to make sure valid/supported epsg
-    props.epsgCodeChanged(event.target.value);
   };
 
   const dataFormatChangeHandler = (event) => {
     setDataFormat(event.target.value);
-    props.dataFormatChanged(event.target.value);
+    // props.dataFormatChanged(event.target.value);
   };
 
   const toEpsgChangeHandler = (event) => {
-    setEpsgCode(event.target.value);
+    setToEpsgCode(event.target.value);
     // TODO add validation to useEffect to make sure valid/supported epsg
-    props.epsgCodeChanged(event.target.value);
   };
 
   const toDataFormatChangeHandler = (event) => {
-    setDataFormat(event.target.value);
-    props.dataFormatChanged(event.target.value);
+    setToDataFormat(event.target.value);
   };
 
   return (
@@ -136,8 +132,6 @@ const Toolbar = (props) => {
 }
 
 Toolbar.propTypes = {
-  epsgCodeChanged: PropTypes.func,
-  dataFormatChanged: PropTypes.func,
   conversionRequest: PropTypes.func,
 };
 

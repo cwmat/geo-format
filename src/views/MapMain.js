@@ -1,13 +1,27 @@
 import Grid from "@mui/material/Grid";
 import { createTheme, ThemeProvider  } from "@mui/material/styles";
-import React from "react";
+import React, { useContext } from "react";
 import Paper from "@mui/material/Paper";
 import Header from "components/Header";
 import { MapContainer } from "components/Map";
 import { CodeContainer } from "components/Code";
+import { convert, isValidGeoJsonGeom } from "lib/conversion";
+import { CodeContext } from "components/Code/CodeContext";
+import { dataFormats } from "models/dataFormat";
 
 const MapMain = () => {
-  const [codeData, setCodeData] = React.useState('');
+  const {
+    codeData,
+    setCodeData,
+    mapData,
+    setMapData,
+    currentEpsgCode,
+    currentDataFormat,
+    toEpsgCode,
+    toDataFormat,
+    setEpsgCode,
+    setDataFormat,
+  } = useContext(CodeContext);
 
   const theme = createTheme(
     {
@@ -17,9 +31,28 @@ const MapMain = () => {
   }
   );
 
-  const codeEditorDataChangedHandler = (event) => {
+  const codeEditorDataChangedHandler = async (event) => {
     console.log('data changed');
     setCodeData(event);
+    // TODO if data are valid update map data
+    const newData = await convert(event, {
+      fromEpsg: currentEpsgCode,
+      fromDataFormat: currentDataFormat,
+      toEpsg: 3857, // Map data should always be in web mercator
+      toDataFormat: dataFormats.geojson, // Map data should always be in geojson
+    });
+    debugger;
+    if (isValidGeoJsonGeom(newData)) setMapData(newData);
+  }
+
+  const conversionRequestHandler = async (event, payload) => {
+    console.log('conversion requested', event);
+    console.log(payload);
+    const newData = await convert(codeData, payload);
+    setCodeData(newData);
+    setEpsgCode(payload.toEpsg);
+    setDataFormat(payload.toDataFormat);
+    debugger;
   }
   
   return (
@@ -40,13 +73,16 @@ const MapMain = () => {
           }}
         >
           {/* Main Map */}
-          <MapContainer codeData={codeData} />
+          <MapContainer />
 
         </Grid>
 
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           {/* Main Code */}
-          <CodeContainer codeEditorDataChanged={codeEditorDataChangedHandler} />
+          <CodeContainer 
+            codeEditorDataChanged={codeEditorDataChangedHandler}
+            conversionRequest={(e, payload) => {conversionRequestHandler(e, payload)}}
+          />
         </Grid>
 
       </Grid>

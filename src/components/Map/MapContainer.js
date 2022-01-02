@@ -12,6 +12,8 @@ import FeatureStyles from "../../models/Features/Styles";
 import { Controls, FullScreenControl } from "../Controls";
 import mapConfig from "./config";
 import PropTypes from 'prop-types';
+import { CodeContext } from "components/Code/CodeContext";
+import * as ol from "ol";
 
 const geojsonObject = mapConfig.geojsonObject;
 const geojsonObject2 = mapConfig.geojsonObject2;
@@ -38,13 +40,14 @@ const addMarkers = (lonLatArray) => {
 const createVectorSource = (featureData) => {
   return vector({
     features: new GeoJSON().readFeatures(featureData, {
-      featureProjection: get("EPSG:4326"),
+      featureProjection: get("EPSG:3857"),
     }),
   });
 }
 
 const MapContainer = (props) => {
-  const [center, setCenter] = useState(mapConfig.center);
+  const {mapData} = useContext(CodeContext);
+  const [center] = useState(mapConfig.center);
   const [zoom, setZoom] = useState(2);
   const [extent, setExtent] = useState(null);
   const [vectorSource, setSetVectorSource] = useState(null);
@@ -56,11 +59,10 @@ const MapContainer = (props) => {
   const [features, setFeatures] = useState(addMarkers(markersLonLat));
 
   useEffect(() => {
-    if (!props?.codeData) return;
-    const extent = createVectorSource(JSON.parse(props?.codeData)).getExtent();
-    console.log('data updated time to zoom my dude', extent);
+    if (!mapData) return;
+    const extent = createVectorSource(mapData).getExtent() ;
     setExtent(extent);
-  }, [props.codeData]);
+  }, [mapData]);
 
   return (
 
@@ -72,8 +74,8 @@ const MapContainer = (props) => {
 
           <TileLayer source={osm()} zIndex={0} />
 
-          {props?.codeData && (<VectorLayer
-              source={createVectorSource(JSON.parse(props?.codeData))}
+          {mapData && (<VectorLayer
+              source={createVectorSource(mapData)}
               style={FeatureStyles.MultiPolygon}
           />
           )}
@@ -116,7 +118,6 @@ const MapContainer = (props) => {
 };
 
 MapContainer.propTypes = {
-  codeData: PropTypes.string,
 };
 
 export default MapContainer;

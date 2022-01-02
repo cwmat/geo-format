@@ -1,9 +1,8 @@
 import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from 'prop-types';
 import {UnControlled as CodeMirror} from 'react-codemirror2';
-import sample from "./sample";
+import { CodeContext } from "components/Code/CodeContext";
 
 import classes from './CodeEditor.module.css';
 
@@ -11,17 +10,20 @@ require('codemirror/mode/xml/xml');
 require('codemirror/mode/javascript/javascript');
 
 const CodeEditor = (props) => {
+  const {codeData} = useContext(CodeContext);
+
   return (
     <Box sx={{ display: 'flex', width: '100%', height: '100%' }}>
       <CodeMirror
-        value={JSON.stringify(sample, null, 1)}
+        value={codeData}
         options={{
           mode: props?.editorMode || 'javascript',
           theme: 'material',
           lineNumbers: true
         }}
         onChange={(editor, data, value) => {
-          props.codeEditorDataChanged(JSON.stringify(value));
+          // TODO check if geojson or WKT
+          props.codeEditorDataChanged(value);
         }}
         className={classes.codeEditor}
       />

@@ -9,8 +9,9 @@ const Map = ({ children, zoom, center, extent=null }) => {
 
   // on component mount
   useEffect(() => {
+    console.log('map mount');
     let options = {
-      view: new ol.View({ zoom, center, projection: 'EPSG:4326' }),
+      view: new ol.View({ zoom, center, projection: 'EPSG:3857' }),
       layers: [],
       controls: [],
       overlays: []
@@ -24,18 +25,22 @@ const Map = ({ children, zoom, center, extent=null }) => {
   // zoom change handler
   useEffect(() => {
     if (!map) return;
+    console.log('map zoom');
     map.getView().setZoom(zoom);
   }, [zoom]);
 
-  // center change handler
-  useEffect(() => {
-    if (!map) return;
-    map.getView().setCenter(center)
-  }, [center]);
+  // center change handler TODO - enter is throwing this off somehow
+  // useEffect(() => {
+  //   if (!map) return;
+  //   debugger;
+  //   console.log('map center');
+  //   map.getView().setCenter(center)
+  // }, [center]);
 
   // extent change handler
   useEffect(() => {
     if (!map || !extent) return;
+    console.log('map extent');
     map.getView()
       .fit(extent,
         {
