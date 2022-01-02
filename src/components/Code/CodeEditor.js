@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import PropTypes from 'prop-types';
 import {UnControlled as CodeMirror} from 'react-codemirror2';
 import { CodeContext } from "components/Code/CodeContext";
+import _ from "lodash";
 
 import classes from './CodeEditor.module.css';
 
@@ -11,6 +12,10 @@ require('codemirror/mode/javascript/javascript');
 
 const CodeEditor = (props) => {
   const {codeData} = useContext(CodeContext);
+
+  const codeEditorDataChangedHandler = _.debounce(data => {
+    props.codeEditorDataChanged(data);
+  }, 500);
 
   return (
     <Box sx={{ display: 'flex', width: '100%', height: '100%' }}>
@@ -23,7 +28,7 @@ const CodeEditor = (props) => {
         }}
         onChange={(editor, data, value) => {
           // TODO check if geojson or WKT
-          props.codeEditorDataChanged(value);
+          codeEditorDataChangedHandler(value);
         }}
         className={classes.codeEditor}
       />

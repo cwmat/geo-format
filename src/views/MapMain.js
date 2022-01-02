@@ -49,9 +49,9 @@ const MapMain = () => {
     console.log('conversion requested', event);
     console.log(payload);
     const newData = await convert(codeData, payload);
-    setCodeData(newData);
     setEpsgCode(payload.toEpsg);
     setDataFormat(payload.toDataFormat);
+    setCodeData(newData);
     debugger;
   }
   
