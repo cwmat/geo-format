@@ -1,7 +1,7 @@
 import axios from "axios";
 import { dataFormats } from "models/dataFormat";
 
-const ogr2ogrUrl = 'http://ogre.adc4gis.com/convert';
+const ogr2ogrUrl = 'https://ogre.adc4gis.com/convert';
 
 export async function convert(data, payload) {
   if (payload.fromDataFormat !== dataFormats.geojson) {
