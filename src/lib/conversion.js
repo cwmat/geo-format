@@ -23,6 +23,7 @@ export function isValidGeoJsonGeom(data) {
   // Empty string should remove shape
   if (data === '') return true;
 
+  // TODO May be worth pulling in https://www.npmjs.com/package/geojson-validation
   try {
     const parsed = JSON.parse(data);
     if (parsed?.features?.[0]?.geometry !== null) {

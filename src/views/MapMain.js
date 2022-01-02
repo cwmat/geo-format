@@ -41,7 +41,6 @@ const MapMain = () => {
       toEpsg: 3857, // Map data should always be in web mercator
       toDataFormat: dataFormats.geojson, // Map data should always be in geojson
     });
-    debugger;
     if (isValidGeoJsonGeom(newData)) setMapData(newData);
   }
 
@@ -52,7 +51,6 @@ const MapMain = () => {
     setEpsgCode(payload.toEpsg);
     setDataFormat(payload.toDataFormat);
     setCodeData(newData);
-    debugger;
   }
   
   return (
