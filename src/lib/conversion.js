@@ -1,19 +1,40 @@
 import axios from "axios";
+import { geojsonToWKT } from "@terraformer/wkt";
+import { wktToGeoJSON } from "@terraformer/wkt";
 import { dataFormats } from "models/dataFormat";
 
 const ogr2ogrUrl = 'https://ogre.adc4gis.com/convert';
 
 export async function convert(data, payload) {
+  let coreData = data;
   if (payload.fromDataFormat !== dataFormats.geojson) {
     // TODO will need to first convert to geojson from w/e supported format
+    switch (payload.fromDataFormat) {
+      case dataFormats.wkt:
+        coreData = convertWktToGeoJson(data);
+        break;
+    
+      default:
+        break;
+    }
   }
 
-  let outData = await project(data, payload.fromEpsg, payload.toEpsg);
+  let outData = await project(coreData, payload.fromEpsg, payload.toEpsg);
 
   if (!outData || outData === '') return '';
 
   if (payload.toDataFormat !== dataFormats.geojson) {
     // TODO will need to convert to geojson from w/e supported format
+    switch (payload.toDataFormat) {
+      case dataFormats.wkt:
+        debugger;
+        outData = convertGeoJsonToWkt(coreData);
+        debugger;
+        break;
+    
+      default:
+        break;
+    }
   }
 
   return outData;
@@ -57,4 +78,14 @@ async function project(data, fromEpsg, toEpsg) {
     console.error(error);
     return '';
   }
+}
+
+function convertGeoJsonToWkt(inData) {
+  const parsedData = JSON.parse(inData);
+  return geojsonToWKT(parsedData);
+}
+
+function convertWktToGeoJson(inData) {
+  const converted = wktToGeoJSON(inData);
+  return JSON.stringify(converted);
 }
