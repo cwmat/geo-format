@@ -13,12 +13,9 @@ const MapMain = () => {
   const {
     codeData,
     setCodeData,
-    mapData,
     setMapData,
     currentEpsgCode,
     currentDataFormat,
-    toEpsgCode,
-    toDataFormat,
     setEpsgCode,
     setDataFormat,
   } = useContext(CodeContext);

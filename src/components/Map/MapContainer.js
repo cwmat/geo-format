@@ -8,34 +8,13 @@ import { fromLonLat, get } from "ol/proj";
 import GeoJSON from "ol/format/GeoJSON";
 import Map from "./Map";
 import { Layers, TileLayer, VectorLayer } from "../Layers";
-import FeatureStyles from "../../models/Features/Styles";
+import styleFunction from "../../models/Features/Styles";
 import { Controls, FullScreenControl } from "../Controls";
 import mapConfig from "./config";
 import PropTypes from 'prop-types';
 import { CodeContext } from "components/Code/CodeContext";
+import _ from "lodash";
 import * as ol from "ol";
-
-const geojsonObject = mapConfig.geojsonObject;
-const geojsonObject2 = mapConfig.geojsonObject2;
-const markersLonLat = [mapConfig.kansasCityLonLat, mapConfig.blueSpringsLonLat];
-
-const addMarkers = (lonLatArray) => {
-  var iconStyle = new Style({
-    image: new Icon({
-      anchorXUnits: "fraction",
-      anchorYUnits: "pixels",
-      src: mapConfig.markerImage32,
-    }),
-  });
-  let features = lonLatArray.map((item) => {
-    let feature = new Feature({
-      geometry: new Point(fromLonLat(item)),
-    });
-    feature.setStyle(iconStyle);
-    return feature;
-  });
-  return features;
-}
 
 const createVectorSource = (featureData) => {
   return vector({
@@ -50,17 +29,22 @@ const MapContainer = (props) => {
   const [center] = useState(mapConfig.center);
   const [zoom, setZoom] = useState(2);
   const [extent, setExtent] = useState(null);
-  const [vectorSource, setSetVectorSource] = useState(null);
 
-  const [showLayer1, setShowLayer1] = useState(true);
-  const [showLayer2, setShowLayer2] = useState(true);
-  const [showMarker, setShowMarker] = useState(false);
+  const [showLayer, setShowLayer] = useState(true);
 
-  const [features, setFeatures] = useState(addMarkers(markersLonLat));
+  const debounceShowLayer = _.debounce(data => {
+    setShowLayer(true);
+  }, 500);
+
+  const refreshLayer = () => {
+    setShowLayer(false);
+    debounceShowLayer();
+  }
 
   useEffect(() => {
     if (!mapData) return;
     const extent = createVectorSource(mapData).getExtent() ;
+    refreshLayer();
     setExtent(extent);
   }, [mapData]);
 
@@ -74,35 +58,12 @@ const MapContainer = (props) => {
 
           <TileLayer source={osm()} zIndex={0} />
 
-          {mapData && (<VectorLayer
+          {mapData && showLayer && (<VectorLayer
               source={createVectorSource(mapData)}
-              style={FeatureStyles.MultiPolygon}
+              style={styleFunction}
           />
           )}
 
-          {/* {showLayer1 && (
-            <VectorLayer
-              source={vector({
-                features: new GeoJSON().readFeatures(geojsonObject, {
-                  featureProjection: get("EPSG:3857"),
-                }),
-              })}
-              style={FeatureStyles.MultiPolygon}
-            />
-          )}
-
-          {showLayer2 && (
-            <VectorLayer
-              source={vector({
-                features: new GeoJSON().readFeatures(geojsonObject2, {
-                  featureProjection: get("EPSG:3857"),
-                }),
-              })}
-              style={FeatureStyles.MultiPolygon}
-            />
-          )}
-
-          {showMarker && <VectorLayer source={vector({ features })} />} */}
         </Layers>
 
         <Controls>

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { geojsonToWKT } from "@terraformer/wkt";
-import { wktToGeoJSON } from "@terraformer/wkt";
 import { dataFormats } from "models/dataFormat";
+import GeoJSON  from "ol/format/GeoJSON";
+import WKT from "ol/format/WKT";
 
 const ogr2ogrUrl = 'https://ogre.adc4gis.com/convert';
 
@@ -27,9 +27,7 @@ export async function convert(data, payload) {
     // TODO will need to convert to geojson from w/e supported format
     switch (payload.toDataFormat) {
       case dataFormats.wkt:
-        debugger;
-        outData = convertGeoJsonToWkt(coreData);
-        debugger;
+        outData = convertGeoJsonToWkt(outData);
         break;
     
       default:
@@ -81,11 +79,19 @@ async function project(data, fromEpsg, toEpsg) {
 }
 
 function convertGeoJsonToWkt(inData) {
-  const parsedData = JSON.parse(inData);
-  return geojsonToWKT(parsedData);
+  var wktOptions = {};
+  var geojsonFormat = new GeoJSON();
+  var outFeature = geojsonFormat.readFeatures(inData);
+  var wkt = new WKT(wktOptions);
+  var out = wkt.writeFeatures(outFeature);
+  return out;
 }
 
 function convertWktToGeoJson(inData) {
-  const converted = wktToGeoJSON(inData);
-  return JSON.stringify(converted);
+  var geojsonOptions = {};
+  var wktFormat = new WKT();
+  var outFeature = wktFormat.readFeatures(inData);
+  var geojson = new GeoJSON(geojsonOptions);
+  var out = geojson.writeFeatures(outFeature);
+  return out;
 }

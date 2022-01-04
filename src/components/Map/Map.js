@@ -32,7 +32,6 @@ const Map = ({ children, zoom, center, extent=null }) => {
   // center change handler TODO - enter is throwing this off somehow
   // useEffect(() => {
   //   if (!map) return;
-  //   debugger;
   //   console.log('map center');
   //   map.getView().setCenter(center)
   // }, [center]);

@@ -24,7 +24,8 @@ const CodeEditor = (props) => {
         options={{
           mode: props?.editorMode || 'javascript',
           theme: 'material',
-          lineNumbers: true
+          lineNumbers: true,
+          lineWrapping: true,
         }}
         onChange={(editor, data, value) => {
           // TODO check if geojson or WKT
