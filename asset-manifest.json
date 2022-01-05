@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/cwmat/geo-format/static/css/main.5a19317c.css",
+    "main.js": "/cwmat/geo-format/static/js/main.7318e941.js",
+    "static/js/787.183b9750.chunk.js": "/cwmat/geo-format/static/js/787.183b9750.chunk.js",
+    "index.html": "/cwmat/geo-format/index.html",
+    "main.5a19317c.css.map": "/cwmat/geo-format/static/css/main.5a19317c.css.map",
+    "main.7318e941.js.map": "/cwmat/geo-format/static/js/main.7318e941.js.map",
+    "787.183b9750.chunk.js.map": "/cwmat/geo-format/static/js/787.183b9750.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5a19317c.css",
+    "static/js/main.7318e941.js"
+  ]
+}
