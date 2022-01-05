@@ -69,7 +69,7 @@ const Tabber = (props) => {
         Nothing here yet...
         <Paper variant="outlined" sx={{marginTop: '1rem'}}>
           <div className="imgContainer">
-            <img src="/assets/images/ben.jpg" alt="Ben Kenobi" />
+            <img src={`${window.location.origin}/assets/images/ben.jpg`} alt="Ben Kenobi" />
           </div>
         </Paper>
       </TabPanel>
@@ -78,7 +78,7 @@ const Tabber = (props) => {
         Nothing here yet either...
         <Paper variant="outlined" sx={{marginTop: '1rem'}}>
           <div className="imgContainer">
-            <img src="/assets/images/crazy-ben.jpg" alt="Crazy Ben Kenobi" />
+            <img src={`${window.location.origin}/assets/images/crazy-ben.jpg`} alt="Crazy Ben Kenobi" />
           </div>
         </Paper>
       </TabPanel>

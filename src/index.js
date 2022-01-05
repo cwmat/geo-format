@@ -10,7 +10,7 @@ ReactDOM.render(
   <React.Fragment>
     <React.StrictMode>
       <CssBaseline />
-      <BrowserRouter basename={'/geo-format/'}>
+      <BrowserRouter basename={process.env.REACT_APP_BASE_HREF}>
         <App />
       </BrowserRouter>
     </React.StrictMode>

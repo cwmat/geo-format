@@ -32,7 +32,7 @@ const ErrorMessage = ({open=false, closeRequested}) => {
           <DialogContentText id="alert-dialog-slide-description">
           <Paper variant="outlined" sx={{marginTop: '1rem'}}>
             <div className="imgContainer" style={{minHeight: '412px'}}>
-              <img src="/assets/images/ya-blew-it.gif" alt="Ben Kenobi" />
+              <img src={`${window.location.origin}/assets/images/ya-blew-it.gif`} alt="Ben Kenobi" />
             </div>
           </Paper>
             You likely entered an invalid dataset or EPSG code.  Or something more sinister may have happened...  Not Sure.
