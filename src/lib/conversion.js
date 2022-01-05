@@ -19,7 +19,14 @@ export async function convert(data, payload) {
     }
   }
 
-  let outData = await project(coreData, payload.fromEpsg, payload.toEpsg);
+  let outData;
+  try {
+    outData = await project(coreData, payload.fromEpsg, payload.toEpsg);
+  } catch (error) {
+    console.error(error.message);
+    throw error.message;
+  }
+  // let outData = await project(coreData, payload.fromEpsg, payload.toEpsg);
 
   if (!outData || outData === '') return '';
 
@@ -74,7 +81,8 @@ async function project(data, fromEpsg, toEpsg) {
     return JSON.stringify(resp.data, null, 1);
   } catch (error) {
     console.error(error);
-    return '';
+    throw error.message;
+    // return '';
   }
 }
 
