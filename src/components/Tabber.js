@@ -49,7 +49,8 @@ const Tabber = (props) => {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={tabChangeHandler} aria-label="Main tabber">
           <Tab label="Code" {...tabData(0)} />
-          <Tab label="Details" {...tabData(1)} />
+          <Tab label="Draw Tools" {...tabData(1)} />
+          <Tab label="Details" {...tabData(2)} />
         </Tabs>
       </Box>
       <TabPanel
@@ -63,11 +64,21 @@ const Tabber = (props) => {
         />
         <CodeEditor editorMode={codeEditorMode} codeEditorDataChanged={props.codeEditorDataChanged} />
       </TabPanel>
+
       <TabPanel value={value} index={1}>
         Nothing here yet...
         <Paper variant="outlined" sx={{marginTop: '1rem'}}>
           <div className="imgContainer">
             <img src="/assets/images/ben.jpg" alt="Ben Kenobi" />
+          </div>
+        </Paper>
+      </TabPanel>
+
+      <TabPanel value={value} index={2}>
+        Nothing here yet either...
+        <Paper variant="outlined" sx={{marginTop: '1rem'}}>
+          <div className="imgContainer">
+            <img src="/assets/images/crazy-ben.jpg" alt="Crazy Ben Kenobi" />
           </div>
         </Paper>
       </TabPanel>
