@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/geo-format/static/css/main.5a19317c.css",
-    "main.js": "/geo-format/static/js/main.f090cc43.js",
+    "main.js": "/geo-format/static/js/main.264e2093.js",
     "static/js/787.183b9750.chunk.js": "/geo-format/static/js/787.183b9750.chunk.js",
     "index.html": "/geo-format/index.html",
     "main.5a19317c.css.map": "/geo-format/static/css/main.5a19317c.css.map",
-    "main.f090cc43.js.map": "/geo-format/static/js/main.f090cc43.js.map",
+    "main.264e2093.js.map": "/geo-format/static/js/main.264e2093.js.map",
     "787.183b9750.chunk.js.map": "/geo-format/static/js/787.183b9750.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5a19317c.css",
-    "static/js/main.f090cc43.js"
+    "static/js/main.264e2093.js"
   ]
 }
